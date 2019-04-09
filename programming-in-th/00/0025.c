@@ -1,0 +1,93 @@
+#include<stdio.h>
+int main(){
+char aa[1000],*a,bb[1000],*b,*c,cc[1];
+int i,j,k,l;
+a=aa;
+b=bb;
+c=cc;
+for(i=0;i<1000;i++)
+{
+    scanf("%c",a);
+    if(*a=='\n')
+        break;
+    a++;
+}
+j=i;
+a-=j;
+for(i=0;i<1000;i++)
+{
+    scanf("%c",c);
+    if(*c=='\n')
+        break;
+    c++;
+}
+l=i;
+c-=l;
+for(i=0;i<1000;i++)
+{
+    scanf("%c",b);
+    if(*b=='\n')
+        break;
+    b++;
+}
+k=i;
+b-=k;
+if(*c=='*')
+{
+for(i=0;i<j;i++)
+{
+    printf("%c",*a);
+    a++;
+}
+b+=1;
+for(i=0;i<k;i++)
+{
+    printf("%c",*b);
+    b++;
+}
+}
+
+else if(*c=='+')
+{
+    if(*a==*b&&j==k)
+    {
+      *a='2';
+      for(i=0;i<j;i++)
+{
+    printf("%c",*a);
+    a++;
+}
+    }
+    else
+    {
+    if(j>k)
+    {
+        j=j-k;
+    for(i=0;i<j;i++)
+    {
+    printf("%c",*a);
+    a++;
+    }
+for(i=0;i<k;i++)
+    {
+    printf("%c",*b);
+    b++;
+    }
+    }
+    else if(k>j)
+    {
+        k=k-j;
+        for(i=0;i<k;i++)
+        {
+    printf("%c",*b);
+    b++;
+        }
+        for(i=0;i<j;i++)
+        {
+    printf("%c",*a);
+    a++;
+        }
+    }
+    }
+}
+}

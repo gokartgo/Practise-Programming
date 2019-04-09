@@ -1,0 +1,67 @@
+#include<stdio.h>
+int main(){
+int i,j,k,l,m=1,n;
+scanf("%d",&i);
+if(i%2==0){
+    j=i-1;
+}
+else j=i;
+if(i%2==0)
+    {
+for(l=0;l<i;l++)
+        {
+    n=l;
+    for(k=1;k<=j;k++)
+        {
+        if(l<((i/2)))
+        {
+            if(k==(i/2)+l||k==(i/2)-l)
+            printf("*");
+            else
+            printf("-");
+        }
+        else if(l>=(i/2))
+        {
+            if(k==i-m||k==m)
+            {
+                printf("*");
+            }
+            else
+            printf("-");
+            if(k==j)
+                m++;
+            }
+        }
+        printf("\n");
+        }
+    }
+else
+    {
+    for(l=0;l<i;l++)
+        {
+    n=l;
+    for(k=1;k<=j;k++)
+        {
+        if(l<(((i+1)/2)))
+        {
+            if(k==((i+1)/2)+l||k==((i+1)/2)-l)
+            printf("*");
+            else
+            printf("-");
+        }
+        else if(l>=(i/2))
+        {
+            if(k==i-m||k==m+1)
+            {
+                printf("*");
+            }
+            else
+            printf("-");
+            if(k==j)
+                m++;
+            }
+        }
+        printf("\n");
+        }
+    }
+}
