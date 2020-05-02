@@ -4,17 +4,18 @@ int data;
 struct node *next;
 };
    struct node *first;
-struct node newNode(struct node *Node,int data)
+struct node * newNode(struct node *Node,int data)
 {
         Node=(struct node*)malloc(sizeof(struct node));
-        return *Node;
+        Node->data = data;
+        return Node;
 }
 
 void addnode(int i)
 {
     struct node *tail;
 
-    *tail=newNode(&tail,i);
+    tail=newNode(&tail,i);
     if(first->next==NULL)
         tail->next=NULL;
     else
@@ -74,7 +75,7 @@ int main(){
     struct node *ans;
     for(ans=first->next;ans!=NULL;ans=ans->next)
     {
-        printf("%d",ans->data);
+        printf("%d\n",ans->data);
     }
 
     removenodefirst();
