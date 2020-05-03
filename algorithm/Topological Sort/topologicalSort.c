@@ -5,8 +5,11 @@ struct node {
   int visited;
   struct node *next;
 };
+// begin use for save index start of pointer graph
+struct node* begin[MAX];
 struct node* graph[MAX];
 struct node* stack;
+
 struct node * newNode(struct node* Node,int data)
 {
   Node=(struct node*)malloc(sizeof(struct node));
@@ -22,9 +25,27 @@ void addnode(int vector,int edge)
   if(graph[vector]==NULL) {
     tail->next=NULL;
     graph[vector]=tail;
+    // set begin to contain start index of graph
+    begin[vector]=graph[vector];
   } else {
     tail->next=graph[vector]->next;
     graph[vector]->next=tail;
+  }
+}
+
+void showGraph(int i) {
+  printf("index %d : ",i);
+  while(graph[i] != NULL) {
+    printf("%d ",graph[i]->edge);
+    graph[i] = graph[i]->next;
+  }
+  printf("\n");
+}
+
+void setStartIndexGraph() {
+  int i;
+  for(i=0;i < MAX;i++) {
+    graph[i] = begin[i];
   }
 }
 
@@ -42,8 +63,6 @@ int dfs(int current,int *whiteSet,int *graySet,int * blackSet) {
       graph[current] = graph[current]->next;
       continue;
     }
-    // printf("%d %d %d\n",current,graph[current]->edge);
-    int i;
     if(graySet[graph[current]->edge] == 1) {
       return 1;
     }
@@ -90,32 +109,68 @@ int cycleInDirectedGraph() {
   return 0;
 }
 
-void showGraph(int i) {
-  printf("index %d : ",i);
-  while(graph[i] != NULL) {
-    printf("%d ",graph[i]->edge);
-    graph[i] = graph[i]->next;
+void addStack(int current) {
+  struct node* temp;
+  temp = (struct node *)malloc(sizeof(struct node));
+  temp->edge = current;
+  if(stack->next == NULL) {
+    temp->next = NULL;
+  } else {
+    temp->next = stack->next;
   }
-  printf("\n");
+  stack->next = temp;
 }
 
+int topologicalSort(int current,int *visited) {
+  visited[current] = 1;
+  while(graph[current] != NULL) {
+    if(topologicalSort(graph[current]->edge,visited)) {
+      return 1;
+    }
+    graph[current] = graph[current]->next;
+  }
+  addStack(current);
+  return 0;
+}
 
 int main() {
   int i;
+  stack = (struct node *)malloc(sizeof(struct node));
+  stack->next = NULL;
+  stack->edge = 0;
   // create directed graph
   for(i=0;i < MAX;i++) {
     graph[i] = NULL;
   }
+  addnode(0,4);
   addnode(1,2);
   addnode(4,1);
   addnode(4,5);
   addnode(5,6);
-  addnode(6,5);
-  
+  // show Graph was created
   // for(i=0;i < MAX;i++) {
   //   showGraph(i);
   // }
+  // setStartIndexGraph();
+
   // check is Cycle in directed graph
-  printf("\n%d",cycleInDirectedGraph());
+  if(cycleInDirectedGraph()) {
+    printf("cannot topological sort with cycle directed graph");
+  } else {
+    // set graph pointer to start index
+    setStartIndexGraph();
+    int visited[MAX];
+    for(i=0;i<MAX;i++) {
+      if(visited[i] == 1) {
+        continue;
+      }
+      topologicalSort(i,visited);
+    }
+    stack = stack->next;
+    while(stack != NULL) {
+      printf("%d ",stack->edge);
+      stack = stack->next;
+    }
+  }
   printf("\n");
 }
