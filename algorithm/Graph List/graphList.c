@@ -1,3 +1,4 @@
+// add graph undirect (undirect is line haven't pointer x ->)
 #include<stdio.h>
 #define MAX 10
 struct node {
@@ -5,17 +6,16 @@ struct node {
   int visited;
   struct node *next;
 };
-struct node* graph[20];
-
-struct node * newNode(struct node* Node,int data)
+struct node* graph[MAX];
+struct node * newNode(struct node* Node,int edge)
 {
   Node=(struct node*)malloc(sizeof(struct node));
-  Node->edge = data;
+  Node->edge = edge;
   Node->visited = 0;
   return Node;
 }
 
-void addnode(int vector,int edge)
+void addNode(int vector,int edge)
 {
   struct node *tail;
   tail = newNode(&tail,edge);
@@ -28,14 +28,29 @@ void addnode(int vector,int edge)
   }
 }
 
+void addEdge(int vector,int edge) {
+  addNode(vector,edge);
+  addNode(edge,vector);
+}
+
+void show(int i) {
+  printf("index %d : ",i);
+  while(graph[i] != NULL) {
+    printf("%d ",graph[i]->edge);
+    graph[i] = graph[i]->next;
+  }
+  printf("\n");
+}
+
 int main() {
   int i;
-  for(i=0;i < 5;i++) {
+  for(i=0;i < MAX;i++) {
     graph[i] = NULL;
   }
-  addnode(0,5);
-  addnode(0,7);
-  printf("%d",graph[0]->edge);
-  printf("%d",graph[0]->next->edge);
+  addEdge(0,5);
+  addEdge(0,7);
+  for(i=0;i < MAX;i++) {
+    show(i);
+  }
   printf("\n");
 }
