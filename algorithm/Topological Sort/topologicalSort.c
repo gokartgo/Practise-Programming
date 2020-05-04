@@ -1,3 +1,4 @@
+// use Graph List and Depth First Search
 #include<stdio.h>
 #define MAX 10
 struct node {
