@@ -27,11 +27,10 @@ function readLine() {
 // Complete the minimumAbsoluteDifference function below.
 function minimumAbsoluteDifference(arr) {
     let min = 1000000000
+    arr.sort((a,b) => a-b)
     for(let i = 0;i<arr.length - 1;i++) {
-        for(let j = i+1;j<arr.length;j++) {
-            if(min > Math.abs(arr[i] - arr[j])) {
-                min = Math.abs(arr[i] - arr[j])
-            }
+        if(Math.abs(arr[i] - arr[i+1]) < min) {
+            min = Math.abs(arr[i] - arr[i+1])
         }
     }
     return min
