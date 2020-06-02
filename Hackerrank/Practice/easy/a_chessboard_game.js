@@ -26,7 +26,10 @@ function readLine() {
 
 // Complete the chessboardGame function below.
 function chessboardGame(x, y) {
-
+    if( y%4 === 3 || y%4 === 0 || x%4 === 3 || x%4 === 0) {
+        return 'First'
+    }
+    return 'Second'
 
 }
 
