@@ -15,6 +15,7 @@ let select = [],
   answer = [],
   min = Infinity,
   choose = 7,
+  start = choose,
   u = [],
   v = [],
   V = graph.length,
@@ -58,3 +59,17 @@ for (let i = 0; i < V; i++) {
 }
 console.log("------------------");
 console.log(path);
+let show = [];
+for (let i = 0; i < V; i++) {
+  show[i] = [];
+  show[i][0] = path[i];
+  from = path[i];
+  for (let j = 1; j < V; j++) {
+    if (from === start) {
+      break;
+    }
+    show[i][j] = path[from];
+    from = path[from];
+  }
+}
+console.log(show);
