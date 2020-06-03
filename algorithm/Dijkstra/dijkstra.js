@@ -9,12 +9,12 @@ const graph = [
   [0, 0, 0, 0, 0, 6, 3, 0],
 ];
 
-const show = new Array();
+const path = new Array();
 
 let select = [],
   answer = [],
   min = Infinity,
-  choose = 5,
+  choose = 7,
   u = [],
   v = [],
   V = graph.length,
@@ -22,7 +22,7 @@ let select = [],
 
 for (let i = 0; i < V; i++) {
   select[i] = 0;
-  show[i] = choose;
+  path[i] = choose;
   for (let j = 0; j < V; j++) {
     if (i !== j && graph[i][j] === 0) {
       graph[i][j] = Infinity;
@@ -43,7 +43,7 @@ for (let i = 0; i < V; i++) {
   for (let j = 0; j < V; j++) {
     if (u[choose] + graph[choose][j] < v[j] && choose != j) {
       v[j] = u[choose] + graph[choose][j];
-      show[j] = choose;
+      path[j] = choose;
     }
   }
 
@@ -57,4 +57,4 @@ for (let i = 0; i < V; i++) {
   console.log(v);
 }
 console.log("------------------");
-console.log(show);
+console.log(path);
