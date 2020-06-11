@@ -63,7 +63,7 @@ let show = [];
 for (let i = 0; i < V; i++) {
   show[i] = [];
   show[i][0] = path[i];
-  from = path[i];
+  let from = path[i];
   for (let j = 1; j < V; j++) {
     if (from === start) {
       break;
