@@ -1,7 +1,7 @@
 let initialState = [
-  [2,8,3],
-  [1,6,4],
-  [7,0,5]
+  [8,3,5],
+  [4,1,6],
+  [2,7,0]
 ]
 const finalState = [
   [1,2,3],
@@ -98,23 +98,26 @@ function findPuzzle(state, level, arr_before_sum) {
     findPathDifferent(state4, arr_sum, level, 3)
   }
   min = findMin(min,arr_sum)
-  for(let i=0;i<arr_before_sum.length;i++) {
-    if(min > arr_before_sum[i]) {
-      return
-    }
-  }
+  // for(let i=0;i<arr_before_sum.length;i++) {
+  //   if(min > arr_before_sum[i].sum) {
+  //     return
+  //   }
+  // }
   let all_state = [state1,state2,state3,state4]
   for(let i=0;i<arr_sum.length;i++) {
+    console.log(arr_sum[i].sum, min)
     if(arr_sum[i].sum === min) {
-      arr_sum[i].sum = Infinity
-      console.log(all_state[arr_sum[i].type], level+1, arr_sum,min)
-      if(level < 7) {
+      console.log(all_state[arr_sum[i].type][0],'---',state[0])
+      console.log(all_state[arr_sum[i].type][1],'---',state[1])
+      console.log(all_state[arr_sum[i].type][2],'---',state[2])
+      console.log('-----------------------',level,arr_sum[i].sum)
+      // arr_sum[i].sum = Infinity
+      if(level < 20) {
         findPuzzle(all_state[arr_sum[i].type], level+1, arr_sum)
-        console.log(level)
       }
     }
-    console.log('finish ',finish)
     if(finish) {
+      console.log('----',finish)
       return
     }
   }
