@@ -1,7 +1,7 @@
 let initialState = [
-  [8,3,5],
-  [4,1,6],
-  [2,7,0]
+  [2,8,3],
+  [1,6,4],
+  [7,0,5]
 ]
 const finalState = [
   [1,2,3],
@@ -11,7 +11,7 @@ const finalState = [
 
 let x, y, p, q, finish = false
 
-function findPathDifferent(state,arr_sum,level,type) {
+function findPathDifferent(state,arr_sum,level,index) {
   let sum = 0
   for(let i = 0;i<9;i++) {
     for(let j=0;j<3;j++) {
@@ -26,16 +26,24 @@ function findPathDifferent(state,arr_sum,level,type) {
         }
       }
     }
-    sum += Math.abs(x - p) + Math.abs(y - q)
+    Math.abs(x - p) + Math.abs(y - q) !== 0 && sum++
   }
   sum += level
-  arr_sum.push({ sum, type })
+  arr_sum.push({ sum,index })
 }
 
-function switchArrayIndex(mock_state,zero_row,zero_col, switch_row, switch_col) {
-  let temp = mock_state[zero_row][zero_col]
-  mock_state[zero_row][zero_col] = mock_state[switch_row][switch_col]
-  mock_state[switch_row][switch_col] = temp
+function switchArrayIndex(state,mock_state,zero_row,zero_col, switch_row, switch_col) {
+  const array_index = mock_state.length
+  mock_state[array_index] = []
+  for(let i=0;i<3;i++) {
+    mock_state[array_index][i] = []
+    for(let j=0;j<3;j++) {
+      mock_state[array_index][i][j] = state[i][j]
+    }
+  }
+  let temp = mock_state[array_index][zero_row][zero_col]
+  mock_state[array_index][zero_row][zero_col] = mock_state[array_index][switch_row][switch_col]
+  mock_state[array_index][switch_row][switch_col] = temp
 }
 
 function setDefaultData(state, mock_state) {
@@ -55,72 +63,64 @@ function findMin(min, arr_sum) {
   return min
 }
 
-function findPuzzle(state, level, arr_before_sum) {
-  let zero_row,zero_col,state1 = [],state2 = [],state3 = [],state4 = [],min = Infinity, arr_sum = [],check = 0
-  for(let i=0;i<3;i++) {
-    state1[i] = []
-    state2[i] = []
-    state3[i] = []
-    state4[i] = []
+function findPuzzle(state, level) {
+  let zero_row,zero_col,mock_state = [],min = Infinity, arr_sum = [],check = 0
+  for(let i=0;i<state.length;i++) {
     for(let j=0;j<3;j++) {
-      state1[i][j] = state[i][j]
-      state2[i][j] = state[i][j]
-      state3[i][j] = state[i][j]
-      state4[i][j] = state[i][j]
-      if(state[i][j] === 0) {
-        zero_row = i
-        zero_col = j
-      }
-      if(state[i][j] === finalState[i][j]) {
-        check++
+      for(let k=0;k<3;k++) {
+        if(state[i][j][k] === 0) {
+          zero_row = j
+          zero_col = k
+        }
+        if(state[i][j][k] === finalState[j][k]) {
+          check++
+        }
       }
     }
-  }
-  if(check === 9) {
-    console.log('finish')
-    finish = true
-    return
-  }
-  if(state[zero_row][zero_col+1]) {
-    switchArrayIndex(state1, zero_row, zero_col, zero_row, zero_col+1)
-    findPathDifferent(state1, arr_sum, level, 0)
-  }
-  if(state[zero_row+1] && state[zero_row+1][zero_col]) {
-    switchArrayIndex(state2, zero_row, zero_col, zero_row + 1, zero_col)
-    findPathDifferent(state2, arr_sum, level, 1)
-  }
-  if(state[zero_row-1] && state[zero_row-1][zero_col]) {
-    switchArrayIndex(state3, zero_row, zero_col, zero_row - 1, zero_col)
-    findPathDifferent(state3, arr_sum, level, 2)
-  }
-  if(state[zero_row][zero_col-1]) {
-    switchArrayIndex(state4, zero_row, zero_col, zero_row, zero_col-1)
-    findPathDifferent(state4, arr_sum, level, 3)
+    if(check === 9) {
+      console.log('finish')
+      finish = true
+      return
+    }
+    if(state[i][zero_row][zero_col+1]) {
+      switchArrayIndex(state[i],mock_state, zero_row, zero_col, zero_row, zero_col+1)
+      findPathDifferent(mock_state[mock_state.length - 1], arr_sum, level,mock_state.length - 1)
+    }
+    if(state[i][zero_row+1] && state[i][zero_row+1][zero_col]) {
+      switchArrayIndex(state[i],mock_state, zero_row, zero_col, zero_row + 1, zero_col)
+      findPathDifferent(mock_state[mock_state.length - 1], arr_sum, level,mock_state.length - 1)
+    }
+    if(state[i][zero_row-1] && state[i][zero_row-1][zero_col]) {
+      switchArrayIndex(state[i],mock_state, zero_row, zero_col, zero_row - 1, zero_col)
+      findPathDifferent(mock_state[mock_state.length - 1], arr_sum, level,mock_state.length - 1)
+    }
+    if(state[i][zero_row][zero_col-1]) {
+      switchArrayIndex(state[i],mock_state, zero_row, zero_col, zero_row, zero_col-1)
+      findPathDifferent(mock_state[mock_state.length - 1], arr_sum, level,mock_state.length - 1)
+    }
   }
   min = findMin(min,arr_sum)
-  // for(let i=0;i<arr_before_sum.length;i++) {
-  //   if(min > arr_before_sum[i].sum) {
-  //     return
-  //   }
-  // }
-  let all_state = [state1,state2,state3,state4]
+
+  let all_state = []
   for(let i=0;i<arr_sum.length;i++) {
-    console.log(arr_sum[i].sum, min)
     if(arr_sum[i].sum === min) {
-      console.log(all_state[arr_sum[i].type][0],'---',state[0])
-      console.log(all_state[arr_sum[i].type][1],'---',state[1])
-      console.log(all_state[arr_sum[i].type][2],'---',state[2])
-      console.log('-----------------------',level,arr_sum[i].sum)
-      // arr_sum[i].sum = Infinity
-      if(level < 20) {
-        findPuzzle(all_state[arr_sum[i].type], level+1, arr_sum)
-      }
+      all_state.push(mock_state[arr_sum[i].index])
     }
     if(finish) {
       console.log('----',finish)
       return
     }
   }
+  console.log('-----------------------')
+  for(let i=0;i<all_state.length;i++) {
+    for(let j=0;j<3;j++) {
+      console.log(all_state[i][j])
+    }
+    console.log('----------------------')
+  }
+  findPuzzle(all_state, level+1)
 }
 
-findPuzzle(initialState, 0, [{sum:Infinity,type:0},{sum:Infinity,type:1},{sum:Infinity,type:2},{sum:Infinity,type:3}])
+// set array metrix before findpuzzle
+console.log([initialState])
+findPuzzle([initialState], 0)
