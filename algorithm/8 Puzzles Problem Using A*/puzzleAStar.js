@@ -1,12 +1,12 @@
 let initialState = [
-  [2,8,3],
-  [1,6,4],
-  [7,0,5]
+  [0,8,7],
+  [6,5,4],
+  [3,2,1]
 ]
 const finalState = [
-  [1,2,3],
-  [8,0,4],
-  [7,6,5]
+  [8,6,5],
+  [3,1,0],
+  [2,4,7]
 ]
 
 let x, y, p, q, finish = false
@@ -66,6 +66,7 @@ function findMin(min, arr_sum) {
 function findPuzzle(state, level) {
   let zero_row,zero_col,mock_state = [],min = Infinity, arr_sum = [],check = 0
   for(let i=0;i<state.length;i++) {
+    check=0
     for(let j=0;j<3;j++) {
       for(let k=0;k<3;k++) {
         if(state[i][j][k] === 0) {
