@@ -1,5 +1,5 @@
-const a = '1234'
-const b = '999'
+const a = '125739201642739481698734658923874687596289347653416237467182693874617623741526354871528673678163746597826349875689237645'
+const b = '9923457827384705982787238947589273985923498561879623897461920836589160992634985628349085723984750928374095273049857209348'
 
 function plus(a,b) {
   let array_a = a.split('').reverse()
@@ -13,9 +13,8 @@ function plus(a,b) {
     array_a[i] = !array_a[i] ? 0 : array_a[i]
     array_b[i] = !array_b[i] ? 0 : array_b[i]
     res[i] = (parseInt(array_a[i]) + parseInt(array_b[i]) + carry) % 10
-    carry = parseInt((parseInt(array_a[i]) + parseInt(array_b[i])) / 10)
+    carry = parseInt((parseInt(array_a[i]) + parseInt(array_b[i]) + carry) / 10)
   }
-
   if(carry != 0) {
     res[length] = carry
   }
