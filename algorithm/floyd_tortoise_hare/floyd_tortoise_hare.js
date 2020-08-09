@@ -1,4 +1,4 @@
-const SIZE = 1
+const SIZE = 10
 let array = []
 
 function randomRange(min,max) {
@@ -35,6 +35,10 @@ for(let i = 0;i<SIZE;i++) {
 }
 
 array[SIZE] = randomRange(1,SIZE)
+let index = randomRange(1,SIZE)
+let temp = array[SIZE]
+array[SIZE] = array[index]
+array[index] = temp
 
 console.log(array)
 
