@@ -55,7 +55,8 @@ function combination(start,number,count,level,numberCombination) {
 }
 
 // Complete the powerSum function below.
-function powerSum(X, N) {
+function powerSum(X, N, number) {
+  /* my thinking
     let i
     answer = 0
     exponent = N
@@ -71,6 +72,14 @@ function powerSum(X, N) {
     }
     combination(0,number,count,0,[])
     return answer
+  */
+    if(Math.pow(number,N) < X) {
+        return powerSum(X,N,number+1) + powerSum(X - Math.pow(number,N),N,number+1)
+    } else if(Math.pow(number,N) === X) {
+        return 1
+    } else {
+        return 0
+    }
 }
 
 function main() {
@@ -80,7 +89,7 @@ function main() {
 
     const N = parseInt(readLine(), 10);
 
-    let result = powerSum(X, N);
+    let result = powerSum(X, N, 1);
 
     ws.write(result + "\n");
 
