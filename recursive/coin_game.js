@@ -1,21 +1,36 @@
-function coin_game(coin, player_turn, player_wait) {
-  // console.log('aaa',coin)
-  if(coin === 3) {
-    // console.log('3')
-    return false
+function coin_game(coin, level) {
+  let sum = 0
+
+  if (coin === 1 || coin === 2 || coin === 0) {
+    return 1
   }
-  if(coin < 0 || coin === 1 || coin === 2 || coin === 4) {
-    return true
+  if (coin === 3) {
+    return 2
   }
-  if(
-    coin_game(coin - 1, player_wait, player_turn) &&
-    coin_game(coin - 2, player_wait, player_turn) &&
-    coin_game(coin - 4, player_wait, player_turn)
-  ) {
-    return false
-  } else {
-    return true
+  if (coin < 0) {
+    return 0
   }
+
+  const one = (coin - 1) % 3 === 0
+  const two = (coin - 2) % 3 === 0
+  const four = (coin - 4) % 3 === 0
+
+  if(!one && !two && !four) {
+    return coin_game1(coin - 1, level + 1) +
+    coin_game1(coin - 2, level + 1) +
+    coin_game1(coin - 4, level + 1)
+  }
+  if(one) {
+    sum += coin_game1(coin - 1, level + 1)
+  }
+  if(two) {
+    sum += coin_game1(coin - 2, level + 1)
+  }
+  if(four) {
+    sum += coin_game1(coin - 4, level + 1)
+  }
+
+  return sum
 }
 
-console.log(coin_game(8, 'a', 'b'))
+console.log(coin_game1(30, 0))
