@@ -33,7 +33,7 @@ function coin_game(coin) {
   if (coin < 0) {
     return 0
   }
-
+  // actually we can use mod 3 for find winner but i try to use all recursive
   const one = is_player_first_winner(coin - 1)
   const two = is_player_first_winner(coin - 2)
   const four = is_player_first_winner(coin - 4)
