@@ -42,24 +42,24 @@ function biggerIsGreater(w) {
     }
     let temp_index = number_w.length - 1
     for(let i=number_w.length - 1; i>0; i--) {
-        if(number_w[i] > number_w[i - 1]) {
+        if(number_w[i] > number_w[i - 1]) { // dkhc -> k > d
             for(let j=i;j<number_w.length;j++) {
-                if(number_w[i - 1] < number_w[j]) {
+                if(number_w[i - 1] < number_w[j]) { // d < k , d < h pick up h index
                     temp_index = j
                 }
             }
             let temp = number_w[i - 1]
             number_w[i - 1] = number_w[temp_index]
-            number_w[temp_index] = temp
+            number_w[temp_index] = temp // switch dkhc -> hkdc
             let w_sort = [], w_sort_index = 0
             for(let j=i;j<number_w.length;j++) {
                 w_sort[w_sort_index++] = number_w[j]
-            }
-            w_sort = w_sort.sort((a,b) => a - b)
+            } // temp word for sort hkdc -> kdc
+            w_sort = w_sort.sort((a,b) => a - b) // sort kdc -> cdk
             w_sort_index = 0
             for(let j=i;j<number_w.length;j++) {
                 number_w[j] = w_sort[w_sort_index++]
-            }
+            } // set sort value hkdc -> hcdk
             break
         }
     }
