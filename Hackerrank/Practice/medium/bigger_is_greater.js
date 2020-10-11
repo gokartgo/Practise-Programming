@@ -28,7 +28,7 @@ function readLine() {
 function biggerIsGreater(w) {
     let number_w = [], check_no_answer = 0
     for(let i=0;i<w.length;i++) {
-        number_w[i] = w.charCodeAt(i) - 97
+        number_w[i] = w.charCodeAt(i)
     }
     for(let i=0;i<number_w.length - 1;i++) {
         if(number_w[i] >= number_w[i+1]){
@@ -40,9 +40,34 @@ function biggerIsGreater(w) {
     if(check_no_answer === number_w.length - 1) {
         return 'no answer'
     }
-    console.log('------')
-    console.log(w, w.length)
-    console.log(number_w)
+    let temp_index = number_w.length - 1
+    for(let i=number_w.length - 1; i>0; i--) {
+        if(number_w[i] > number_w[i - 1]) {
+            for(let j=i;j<number_w.length;j++) {
+                if(number_w[i - 1] < number_w[j]) {
+                    temp_index = j
+                }
+            }
+            let temp = number_w[i - 1]
+            number_w[i - 1] = number_w[temp_index]
+            number_w[temp_index] = temp
+            let w_sort = [], w_sort_index = 0
+            for(let j=i;j<number_w.length;j++) {
+                w_sort[w_sort_index++] = number_w[j]
+            }
+            w_sort = w_sort.sort((a,b) => a - b)
+            w_sort_index = 0
+            for(let j=i;j<number_w.length;j++) {
+                number_w[j] = w_sort[w_sort_index++]
+            }
+            break
+        }
+    }
+    for(let i = 0;i<number_w.length;i++) {
+        number_w[i] = String.fromCharCode(number_w[i])
+    }
+    
+    return number_w.join('')
 }
 
 function main() {
