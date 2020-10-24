@@ -26,32 +26,28 @@ function readLine() {
 
 // Complete the timeInWords function below.
 function timeInWords(h, m) {
-    let hour = h, minute = m, minute_key = 'past', time_unit = 'minute'
-    let string_time = ['o\' clock', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'quarter past', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'twenty one', 'twenty two', 'twenty three', 'twenty four', 'twenty five', 'twenty six', 'twenty seven', 'twenty eight', 'twenty nine', 'half past']
-    if (minute > 30) {
+    let hour = h, minute = m, past_to = 'past', time_unit = 'minute'
+    let string_time = ['o\' clock', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'quarter', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'twenty one', 'twenty two', 'twenty three', 'twenty four', 'twenty five', 'twenty six', 'twenty seven', 'twenty eight', 'twenty nine', 'half past']
+
+    if (m > 30) {
         minute = 30 - minute % 30
-        minute_key = 'to'
-        hour++
+        past_to = 'to'
+        hour = h === 12 ? 1 : ++hour
+    } else if (m === 0  || m === 30) {
+        past_to = ''
     }
-    if (h === 12 && m > 30) {
-        hour = 1
-    }
+
     hour = string_time[hour]
     minute = string_time[minute]
 
-    if (m === 0 || m === 15 || m === 30 || m === 45) {
-        minute_key = ''
-    }
-    if (m === 45) {
-        minute = 'quarter to'
-    }
-    if (minute_key) {
+    if (past_to && m !== 15 && m !== 45) {
         time_unit = m === 1 ? time_unit : `${time_unit}s`
-        minute_key = `${time_unit} ${minute_key}`
+        past_to = `${time_unit} ${past_to}`
     }
-    let answer = minute_key ? `${minute} ${minute_key} ${hour}` : `${minute} ${hour}`
+
+    let answer = past_to ? `${minute} ${past_to} ${hour}` : `${minute} ${hour}`
     answer = m === 0 ? `${hour} ${minute}` : answer
-    console.log(answer, h, m)
+
     return answer
 }
 
@@ -61,6 +57,7 @@ function main() {
     const h = parseInt(readLine(), 10);
 
     const m = parseInt(readLine(), 10);
+
     let result = timeInWords(h, m);
 
     ws.write(result + "\n");
