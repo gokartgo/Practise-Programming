@@ -26,8 +26,26 @@ function readLine() {
 
 // Complete the surfaceArea function below.
 function surfaceArea(A) {
-
-
+    let answer = 0
+    for(let i = 0;i<A.length;i++) {
+        for(let j = 0;j<A[0].length;j++) {
+            let surface = A[i][j] * 4 + 2, main
+            if(A[i+1]) {
+                surface = A[i+1][j] > A[i][j] ? surface - A[i][j] : surface - A[i+1][j]
+            }
+            if(A[i-1]) {
+                surface = A[i-1][j] > A[i][j] ? surface - A[i][j] : surface - A[i-1][j]
+            }
+            if(A[i][j+1]) {
+                surface = A[i][j+1] > A[i][j] ? surface - A[i][j] : surface - A[i][j+1]
+            }
+            if(A[i][j-1]) {
+                surface = A[i][j-1] > A[i][j] ? surface - A[i][j] : surface - A[i][j-1]
+            }
+            answer += surface
+        }
+    }
+    return answer
 }
 
 function main() {
