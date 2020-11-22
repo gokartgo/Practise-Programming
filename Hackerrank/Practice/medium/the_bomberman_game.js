@@ -24,10 +24,92 @@ function readLine() {
     return inputString[currentLine++];
 }
 
+function detonating(number_grid, i, j) {
+    if(number_grid[i][j + 1] && number_grid[i][j + 1] !== 3) {
+        number_grid[i][j + 1] = -1
+    }
+    if(number_grid[i][j - 1] && number_grid[i][j - 1] !== 3) {
+        number_grid[i][j - 1] = -1
+    }
+    if(number_grid[i - 1] && number_grid[i - 1][j] && number_grid[i - 1][j] !== 3) {
+        number_grid[i - 1][j] = -1
+    }
+    if(number_grid[i + 1] && number_grid[i + 1][j] && number_grid[i + 1][j] !== 3) {
+        number_grid[i + 1][j] = -1
+    }
+}
+
+function setup_grid(number_grid) {
+    for(let i = 0;i<number_grid.length; i++) {
+        for(let j = 0;j<number_grid[0].length; j++) {
+            if(number_grid[i][j] === -1) {
+                number_grid[i][j] = 0
+            }
+            if(number_grid[i][j] === -2) {
+                number_grid[i][j] = 3
+            }
+        }
+    }
+}
+
+function answer_grid(number_grid) {
+    let answer = []
+    for(let i = 0;i<number_grid.length; i++) {
+        answer[i] = ''
+        for(let j = 0;j<number_grid[0].length; j++) {
+            if(number_grid[i][j] === 0) {
+                answer[i] += '.'
+            } else {
+                answer[i] += 'O'
+            }
+        }
+    }
+
+    return answer
+}
+
 // Complete the bomberMan function below.
 function bomberMan(n, grid) {
-
-
+    if(n > 4) {
+        n = 4 + n%4
+    }
+    let number_grid = [], answer
+    if(n === 1) {
+        return grid
+    }
+    
+    for(let i = 0;i<grid.length; i++) {
+        number_grid[i] = []
+        for(let j = 0;j<grid[0].length; j++) {
+            if(grid[i][j] === 'O') {
+                number_grid[i][j] = 2
+            } else {
+                number_grid[i][j] = 0   
+            }   
+        }
+    }
+    
+    for(let k = 1;k < n;k++) {
+        for(let i = 0;i<grid.length; i++) {
+            for(let j = 0;j<grid[0].length; j++) {
+                if(number_grid[i][j] === 0) {
+                    number_grid[i][j] = 1
+                } else if(number_grid[i][j] === 1) {
+                    number_grid[i][j] = 2
+                } else if (number_grid[i][j] === 2) {
+                    number_grid[i][j] = -2
+                } else if (number_grid[i][j] === 3) {
+                    number_grid[i][j] = -1
+                    detonating(number_grid, i, j)
+                }
+            }
+        }
+        setup_grid(number_grid)
+    }
+    
+    answer = answer_grid(number_grid)
+    
+    return answer
 }
 
 function main() {
