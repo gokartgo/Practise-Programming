@@ -1,31 +1,30 @@
 const arr = []
 
 const quicksort = (arr, start, end) => {
-  if(start >= end) {
-    return
+  if(start < end) {
+    let l = start, h = end, pivot = arr[start]
+
+    while(l < h) {
+      while(pivot >= arr[l]) {
+        l++
+      }
+
+      while(pivot < arr[h]) {
+        h--
+      }
+
+      if(l < h) {
+        let temp = arr[l]
+        arr[l] = arr[h]
+        arr[h] = temp
+      }
+    }
+    arr[start] = arr[h]
+    arr[h] = pivot
+
+    quicksort(arr, start, h - 1)
+    quicksort(arr, l, end)
   }
-  let i = start, j = end
-  pivot = arr[start]
-  while(i < j) {
-    while(pivot >= arr[i]  && i < j) {
-      i++
-    }
-    while(pivot < arr[j]  && i <= j) {
-      j--
-    }
-    if(i < j) {
-      let temp = arr[i]
-      arr[i] = arr[j]
-      arr[j] = temp
-      i++
-      j--
-    }
-  }
-  let temp = pivot
-  arr[start] = arr[j]
-  arr[j] = temp
-  quicksort(arr, start, j-1)
-  quicksort(arr, j+1, end)
 }
 
 const max = 100, min = 5
